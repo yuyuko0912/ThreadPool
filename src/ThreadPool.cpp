@@ -1,6 +1,6 @@
 #include "ThreadPool.h"
-#include <stdexcept>
-#include <utility> // move()
+
+
 
 // 含参构造函数：创建时线程池状态为开启
 ThreadPool::ThreadPool(std::size_t threadCount):stopping_(false){

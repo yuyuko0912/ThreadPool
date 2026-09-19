@@ -1,12 +1,26 @@
 #include "ThreadPool.h"
 #include <iostream>
-#include <thread>
 
 using namespace std;
+
+int add(int a, int b)
+{
+    return a + b;
+}
+
 int main() {
-    ThreadPool T(4);
-    cout << "ThreadPool started.\n";
-    this_thread::sleep_for(chrono::seconds(1)); // 当前线程睡眠一秒。
-    cout << "ThreadPool finished.\n";
+    ThreadPool pool(4);
+    auto future1 = pool.submit([]{ return 42;});
+    auto future2 = pool.submit(add, 10, 20);
+    auto future3 = pool.submit(
+        [](int x){
+            return x*x;
+        },
+        5
+    );
+
+    cout << future1.get() << '\n';
+    cout << future2.get() << '\n';
+    cout << future3.get() << '\n';
     return 0;
 }
