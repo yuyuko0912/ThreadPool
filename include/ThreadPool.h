@@ -29,10 +29,14 @@ public:
     ThreadPool(const ThreadPool&) = delete; 
     ThreadPool& operator=(const ThreadPool&) = delete; // 禁用 =  的重载。
 
+    // 主动停止线程池
+    void shutdown();
+    
     // 对外接口，获取并包装任务
     template <class F,class... Args> 
     auto submit(F&& f,Args&&... args)
         -> std::future<std::invoke_result_t<F,Args...>>; // 尾置返回类型，返回值类型根据参数推导出。
+
 
 private:
 // 成员函数

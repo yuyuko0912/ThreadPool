@@ -43,9 +43,8 @@ void ThreadPool::worker(){
 
 }
 
-
-// 析构函数，优雅退出
-ThreadPool::~ThreadPool(){
+// 关闭线程池（与析构时一个流程）
+void ThreadPool::shutdown(){
     {
     std::lock_guard<std::mutex> lock(mutex_);
     stopping_ = true;
@@ -58,5 +57,9 @@ ThreadPool::~ThreadPool(){
             worker.join(); // 阻塞等待该线程执行完毕，之后回收资源。
         }
     }
+}
 
+// 析构函数，优雅退出
+ThreadPool::~ThreadPool(){
+    shutdown();
 }
