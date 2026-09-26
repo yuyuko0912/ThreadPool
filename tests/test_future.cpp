@@ -1,6 +1,7 @@
 #include "ThreadPool.h"
 
 #include <cassert>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -8,25 +9,24 @@ int main()
 {
     ThreadPool pool(4);
 
-    // 测试1：返回值
+    // test1：返回值
     auto future1 = pool.submit([] {
         return 42;
     });
 
     assert(future1.get() == 42);
 
-    // 测试2：带参数和返回值
+    // test2：带参数和返回值
     auto future2 = pool.submit(
         [](int a, int b) {
             return a * b;
         },
-        6,
-        7
+        6,7
     );
 
     assert(future2.get() == 42);
 
-    // 测试3：void返回值
+    // test3：void返回值
     bool executed = false;
 
     auto future3 = pool.submit([&executed] {
@@ -37,7 +37,7 @@ int main()
 
     assert(executed);
 
-    // 测试4：异常传播
+    // test4：异常传播
     auto future4 = pool.submit([] {
         throw std::runtime_error("test exception");
     });

@@ -1,6 +1,6 @@
 #include "ThreadPool.h"
 
-#include <cassert>
+#include <cassert> // assert()
 #include <iostream>
 
 int main(){
@@ -12,7 +12,7 @@ int main(){
         executed = true;
     });
     future1.get();
-    assert(executed);
+    assert(executed); // 判断任务是否被执行，若成功，继续运行。
 
     // test2，任务返回值
     auto future2 = pool.submit([] {

@@ -2,8 +2,12 @@
 
 #include <atomic>
 #include <cassert>
+#include <future>
+#include <iostream>
+#include <thread>
+#include <vector>
 
-
+// 多线程并发测试
 int main()
 {
     ThreadPool pool(4);
@@ -30,7 +34,7 @@ int main()
                 {
                     futures[i].push_back(
                         pool.submit([&counter] {
-                            counter.fetch_add(1);
+                            ++counter;
                         })
                     );
                 }
