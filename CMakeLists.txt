@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16) # cmake最低版本
 
 # 项目名称、版本、使用语言
 project(ThreadPool
-    VERSION 1.0
+    VERSION 2.0
     LANGUAGES CXX
 ) 
 
@@ -112,6 +112,19 @@ target_link_libraries(test_shutdown
 add_test(
     NAME shutdown
     COMMAND test_shutdown
+)
+
+#优先队列测试
+add_executable(test_priority
+    tests/test_priority.cpp
+)
+target_link_libraries(test_priority
+    PRIVATE
+        ThreadPool
+)
+add_test(
+    NAME priority
+    COMMAND test_priority
 )
 
 # Benchmark，程序性能测试

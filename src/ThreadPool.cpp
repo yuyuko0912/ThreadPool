@@ -19,7 +19,7 @@ ThreadPool::ThreadPool(std::size_t threadCount):stopping_(false){
 // 每个空闲线程轮流对任务队列上锁，等待并从中取出任务，执行后排队等待任务队列解锁，重复。
 void ThreadPool::worker(){
     while(true){
-        std::function<void()> task;
+        Task task;
         // RALL作用域块，锁住访问任务队列的时间。
         {
             std::unique_lock<std::mutex> lock(mutex_); // 上锁
@@ -34,10 +34,10 @@ void ThreadPool::worker(){
             } // 如果线程池关闭且所有任务执行完毕，关闭当前线程。
             
             // 线程池开启且有任务时，拿取，并让任务出队。
-            task = std::move(tasks_.front()); // move() 是将当前队列头部任务的所有权转移给局部变量task。
+            task = std::move(tasks_.top()); // move() 是将当前队列头部任务的所有权转移给局部变量task。
             tasks_.pop();
         }
-        task(); // 在当前线程运行该任务。
+        task.function(); // 在当前线程运行该任务。
 
     }
 
